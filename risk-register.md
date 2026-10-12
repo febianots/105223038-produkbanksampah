@@ -121,26 +121,13 @@ Response : `Acc`
 Rencana Control Spesiﬁk : `Pertahankan enforced HTTPS redirect (HSTS aktif).`
 Peta Tugas : `Tugas 3 (Part A)`
 
-
-
 2. Rincian 5 Risiko Prioritas Utama (Top Priority Risks)
 
-A. R-01 (T-05): Database Port Exposed & Default Credentials
-    - Level Risiko: 25 (Very High)
-    - Justifikasi Condition: Port 5432 PostgreSQL terbuka langsung ke antarmuka 0.0.0.0 pada konfigurasi container dasar, memicu deteksi otomatis oleh mesin pencari seperti Shodan.
-    - Rencana Kontrol: Mengisolasi port PostgreSQL ke jaringan internal Docker (bridge network) tanpa publikasi port ke host luar, serta mengubah password bawaan di .env. (Rencana Implementasi: Tugas 2).
+A. R-01 (T-05): Database Port Exposed & Default Credentials - Level Risiko: 25 (Very High) - Justifikasi Condition: Port 5432 PostgreSQL terbuka langsung ke antarmuka 0.0.0.0 pada konfigurasi container dasar, memicu deteksi otomatis oleh mesin pencari seperti Shodan. - Rencana Kontrol: Mengisolasi port PostgreSQL ke jaringan internal Docker (bridge network) tanpa publikasi port ke host luar, serta mengubah password bawaan di .env. (Rencana Implementasi: Tugas 2).
 
-B. R-02 (T-03): Missing Authorization Check on Admin API (BOPA / IDOR)
-    - Level Risiko: 16 (Very High)
-    - Justifikasi Condition: Pengecekan otorisasi pengguna hanya terjadi di sisi frontend routing, sehingga penyerang dapat melompati UI dan langsung memanggil endpoint API internal dengan hak akses JWT biasa.
-    -Rencana Kontrol: Mengimplementasikan RBAC Middleware pada skema API backend yang memverifikasi atribut user.role === 'ADMIN' pada setiap permintaan HTTP inbound. (Rencana Implementasi: Tugas 2).
+B. R-02 (T-03): Missing Authorization Check on Admin API (BOPA / IDOR) - Level Risiko: 16 (Very High) - Justifikasi Condition: Pengecekan otorisasi pengguna hanya terjadi di sisi frontend routing, sehingga penyerang dapat melompati UI dan langsung memanggil endpoint API internal dengan hak akses JWT biasa.
+-Rencana Kontrol: Mengimplementasikan RBAC Middleware pada skema API backend yang memverifikasi atribut user.role === 'ADMIN' pada setiap permintaan HTTP inbound. (Rencana Implementasi: Tugas 2).
 
-C. R-03 (T-04): SQL Injection pada Parameter Filter Setoran
-    - Level Risiko: 15 (Very High)
-    - Justifikasi Condition: Penggabungan string manual (string concatenation) masih digunakan pada pembuatan klausa WHERE di fungsi pencarian histori setoran.
-    - Rencana Kontrol: Menghapus seluruh raw query terikat string concatenation dan menggantinya dengan Prepared Statements / Parameterized Queries ORM. (Rencana Implementasi: Tugas 2).
+C. R-03 (T-04): SQL Injection pada Parameter Filter Setoran - Level Risiko: 15 (Very High) - Justifikasi Condition: Penggabungan string manual (string concatenation) masih digunakan pada pembuatan klausa WHERE di fungsi pencarian histori setoran. - Rencana Kontrol: Menghapus seluruh raw query terikat string concatenation dan menggantinya dengan Prepared Statements / Parameterized Queries ORM. (Rencana Implementasi: Tugas 2).
 
-D. R-04 (T-01): Credential Stuffing & Brute-Force pada Endpoint Auth
-    - Level Risiko: 12 (High)
-    - Justifikasi Condition: Endpoint /api/auth/login menerima permintaan tanpa batasan kuota per alamat IP, mempermudah pengujian ribuan kombinasi kredensial per menit.
-    - Rencana Kontrol: Menerapkan rate limiter berbasis Redis/Memory yang membatasi maksimum 5 kali percobaan kegagalan login per IP dalam durasi 15 menit. (Rencana Implementasi: Tugas 3 Part A).
+D. R-04 (T-01): Credential Stuffing & Brute-Force pada Endpoint Auth - Level Risiko: 12 (High) - Justifikasi Condition: Endpoint /api/auth/login menerima permintaan tanpa batasan kuota per alamat IP, mempermudah pengujian ribuan kombinasi kredensial per menit. - Rencana Kontrol: Menerapkan rate limiter berbasis Redis/Memory yang membatasi maksimum 5 kali percobaan kegagalan login per IP dalam durasi 15 menit. (Rencana Implementasi: Tugas 3 Part A).
